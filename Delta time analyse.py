@@ -82,9 +82,14 @@ error_time = 0.034040854478832844
 # Energy at creation
 gamma = 1/(np.sqrt(1 - ((speed)**2)/(c**2)))
 muon_mass = 1.883531627 * 10**(-28)
+error_gamma = (6.242 * 10**(9) * muon_mass*c**2 * (speed * error/(c**2 * (1 - (speed**2)/(c**2))**(3/2))))
+
 
 distance_traveled = time * (10**(-6)) * speed
-energy_loss = distance_traveled * 100 * 1.602 * 10**(-13) * 2 * 0.001225
+error_distance_traveled = 0.2 * distance_traveled * np.sqrt((error/speed)**2 + (error_time/time))
+# energy_loss = distance_traveled * gamma * loss factor (MeV/g/cm^2) in MeV
+energy_loss = distance_traveled * gamma * 100 * 2 * 0.001293
+error_energy_loss = energy_loss * np.sqrt((error_distance_traveled / distance_traveled)**2 + (error_gamma / gamma)**2) 
 energy_J = energy_loss + muon_mass * c**2 * gamma
 energy_GeV = energy_J * 6.242 * 10**(9)
 
@@ -105,7 +110,7 @@ print(f"sigma/sqrt(N) {perr1[2]/np.sqrt(len(x1))}")
 print(f"Mu recentered {distance_to_peak1}")
 print(f"De energie gemeten {muon_mass * c**2 * gamma * 6.242 * 10**(9)} ± {(6.242 * 10**(9) * muon_mass*c**2 * (speed * error/(c**2 * (1 - (speed**2)/(c**2))**(3/2))))}")
 
-
+print(f"Het energie verlies is {energy_loss} ± {error_energy_loss}")
 plt.legend()
 # plt.savefig('Delta time two peaks.png', dpi=600)
 plt.show()

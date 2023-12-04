@@ -46,6 +46,6 @@ print("Fitted Parameters (tau, N_0, B) with Errors:")
 print(f"tau: {tau} ± {perr[0]}, N_0: {N0} ± {perr[1]}, B: {B} ± {perr[2]}")
 
 plt.legend()
-plt.savefig('Lifetime data met fit.png', dpi=600)
+# plt.savefig('Lifetime data met fit.png', dpi=600)
 plt.show()
 
