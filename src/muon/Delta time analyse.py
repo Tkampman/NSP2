@@ -45,8 +45,8 @@ A1, mu1, sigma1 = params1
 A2, mu2, sigma2 = params2
 
 print("Fitted Parameters (A, mu, sigma) for Each Peak:")
-print(f"Peak 1:  A: {A1} ± {perr1[0]}, mu: {mu1} ± {perr1[1]}, sigma: {sigma2} ± {perr1[2]}")
-print(f"Peak 2:  A: {A2} ± {perr2[0]}, mu: {mu1} ± {perr2[1]}, sigma: {sigma2} ± {perr2[2]}")
+print(f"Peak 1:  A: {A1} ± {perr1[0]}, mu: {mu1} ± {perr1[1]}, sigma: {sigma1} ± {perr1[2]}")
+print(f"Peak 2:  A: {A2} ± {perr2[0]}, mu: {mu2} ± {perr2[1]}, sigma: {sigma2} ± {perr2[2]}")
 
 
 # Parameters of the detector
