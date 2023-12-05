@@ -79,7 +79,7 @@ error_gamma = (6.242 * 10**(9) * muon_mass*c**2 * (speed * error_velocity/(c**2 
 
 # Parameters of distance traveled
 distance_traveled = time * (10**(-6)) * speed
-error_distance_traveled = 0.2 * distance_traveled * np.sqrt((error_velocity/speed)**2 + (error_time/time)**2)
+error_distance_traveled = distance_traveled * np.sqrt((error_velocity/speed)**2 + (error_time/time)**2)
 
 print(f"velocity is {speed}")
 print(f'Vergeleken met de snelheid van licht is dit: {round(velocity_light,3)} ± {round(error_velocity/c, 3)} c')
