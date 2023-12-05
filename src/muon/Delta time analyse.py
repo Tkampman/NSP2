@@ -54,35 +54,36 @@ print(f"Peak 2:  A: {A2} ± {perr2[0]}, mu: {mu2} ± {perr2[1]}, sigma: {sigma2}
 
 # Defining constants and parameters
 # =============================================================================================
+# Time of life in muon perspective
+time = tau
+error_time = tau_error
+muon_mass = 1.883531627 * 10**(-28)
+c = 299792458
+
 # Parameters of the detector
 detector_distance = 2.45  # in meters
 detector_distance_error = 0.05 # in meters
 detector_resolution = 0.5 # in nanoseconds
+error_dist = (detector_distance_error/detector_distance)**2
+
 # Parameters of velocity
 distance_to_peak = distance_peak_func(mu1,mu2) # in nanoseconds
-c = 299792458 * 10**8 
 speed = abs(detector_distance/(distance_to_peak * 10**(-9)))
 velocity_light = speed/c
-# error in velocity
-error_dist = (detector_distance_error/detector_distance)**2
 error_deltatime = (detector_resolution/distance_to_peak)**2
 error_velocity = speed * np.sqrt(error_dist + error_deltatime)
+
+# Parameters of the gamma factor
+gamma = 1/(np.sqrt(1 - ((speed)**2)/(c**2)))
+error_gamma = (6.242 * 10**(9) * muon_mass*c**2 * (speed * error_velocity/(c**2 * (1 - (speed**2)/(c**2))**(3/2))))
+
+# Parameters of distance traveled
+distance_traveled = time * (10**(-6)) * speed
+error_distance_traveled = 0.2 * distance_traveled * np.sqrt((error_velocity/speed)**2 + (error_time/time)**2)
 
 print(f"velocity is {speed}")
 print(f'Vergeleken met de snelheid van licht is dit: {round(velocity_light,3)} ± {round(error_velocity/c, 3)} c')
 
-# Time of life in muon perspective
-time = tau
-error_time = tau_error
-
-# Energy at creation
-gamma = 1/(np.sqrt(1 - ((speed)**2)/(c**2)))
-muon_mass = 1.883531627 * 10**(-28)
-error_gamma = (6.242 * 10**(9) * muon_mass*c**2 * (speed * error_velocity/(c**2 * (1 - (speed**2)/(c**2))**(3/2))))
-
-
-distance_traveled = time * (10**(-6)) * speed
-error_distance_traveled = 0.2 * distance_traveled * np.sqrt((error_velocity/speed)**2 + (error_time/time))
 # energy_loss = distance_traveled * gamma * loss factor (MeV/g/cm^2) in MeV
 energy_loss = distance_traveled * gamma * 100 * 2 * 0.001293
 error_energy_loss = energy_loss * np.sqrt((error_distance_traveled / distance_traveled)**2 + (error_gamma / gamma)**2) 
@@ -92,7 +93,7 @@ energy_GeV = energy_J * 6.242 * 10**(9)
 energy_GeV_error = np.sqrt((0.2 * distance_traveled * np.sqrt((error_velocity/speed)**2 + 
 (error_time/time)**2))**2 + (error_gamma)**2)
 
-print(f"De muon is ontstaan op een hoogt van : {distance_traveled} ± {0.2 * distance_traveled * np.sqrt((error_velocity/speed)**2 + (error_time/time))} m in de ref frame van de muon")
+print(f"De muon is ontstaan op een hoogt van : {distance_traveled} ± {error_distance_traveled} m in de ref frame van de muon")
 print(f"De muon is ontstaan op een hoogt van : {distance_traveled * gamma} m in de ref frame van ons")
 print(f"De gemiddelde energie is : {round(energy_GeV, 3)} ± {round(energy_GeV_error, 3)} GeV")
 print(f"Gamma factor: {gamma}")
@@ -105,7 +106,6 @@ print(f'De eigentijd van de muon is: {delta_time} ± {delta_time_error} us')
 print(f"sigma/sqrt(N) {perr1[2]/np.sqrt(len(x1))}")
 print(f"Mu recentered {distance_to_peak}")
 print(f"De energie gemeten {muon_mass * c**2 * gamma * 6.242 * 10**(9)} ± {(error_gamma)}")
-
 print(f"Het energie verlies is {energy_loss} ± {error_energy_loss}")
 plt.legend()
 # plt.savefig('Delta time two peaks.png', dpi=600)
