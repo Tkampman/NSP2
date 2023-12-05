@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
-
+from muon.Lifetime_analyse import tau
 # Load your data from the CSV file
 data_pos = pd.read_csv("Delta time groep A 30-11.csv")
 data_neg = pd.read_csv("Delta time tot 27-11-2023 Groep B gestolen.csv")
