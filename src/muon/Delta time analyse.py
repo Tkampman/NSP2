@@ -13,7 +13,6 @@ def func(x, A, mu, sigma):
     return N
 
 def fit_data(data, func, initial_params):
-
     x = data['Time [ns] - histogram']
     y = data['Counts - histogram']
 
@@ -26,6 +25,11 @@ def fit_data(data, func, initial_params):
     fitted_curve = func(x, *params)
 
     return params, perr, fitted_curve, x, y
+
+def distance_peak_func(peak1,peak2):
+    midpoint = (peak1 + peak2) / 2
+    distance = abs(midpoint - peak1)
+    return distance
 
 params1, perr1, fitted_curve1, x1, y1 = fit_data(data_pos, func, [600, 7, 1])
 params2, perr2, fitted_curve2, x2, y2 = fit_data(data_neg, func, [600, -10, 1])
@@ -48,26 +52,20 @@ print("Fitted Parameters (A, mu, sigma) for Each Peak:")
 print(f"Peak 1:  A: {A1} ± {perr1[0]}, mu: {mu1} ± {perr1[1]}, sigma: {sigma1} ± {perr1[2]}")
 print(f"Peak 2:  A: {A2} ± {perr2[0]}, mu: {mu2} ± {perr2[1]}, sigma: {sigma2} ± {perr2[2]}")
 
-
+# Constants and parameters
+# =============================================================================================
 # Parameters of the detector
 detector_distance = 2.45  # in meters
 detector_distance_error = 0.05 # in meters
 detector_resolution = 0.5 # in nanoseconds
-
-# Calculating the midpoint between the two peaks using the mean of each peak
-midpoint = (mu1 + mu2) / 2
-
-# Calculating the distance in nanoseconds from the midpoint to each peak
-distance_to_peak1 = abs(midpoint - mu1)
-distance_to_peak2 = abs(midpoint - mu2)
-
+distance_to_peak = distance_peak_func(mu1,mu2)
 # calculation of the velocity
 c = 3 * 10**8
-speed = abs(detector_distance/(distance_to_peak1 * 10**(-9)))
+speed = abs(detector_distance/(distance_to_peak * 10**(-9)))
 
 # error in velocity
 error_dist = (detector_distance_error/detector_distance)**2
-error_mu = (detector_resolution/distance_to_peak1)**2
+error_mu = (detector_resolution/distance_to_peak)**2
 error = speed * np.sqrt(error_dist + error_mu)
 
 # Velocity compared to the speed of light
@@ -108,7 +106,7 @@ delta_time_error = np.sqrt(((speed**2 * time**2 * error**2)/(c**4 - c**2 * speed
 
 print(f'De eigentijd van de muon is: {delta_time} ± {delta_time_error} us')
 print(f"sigma/sqrt(N) {perr1[2]/np.sqrt(len(x1))}")
-print(f"Mu recentered {distance_to_peak1}")
+print(f"Mu recentered {distance_to_peak}")
 print(f"De energie gemeten {muon_mass * c**2 * gamma * 6.242 * 10**(9)} ± {(error_gamma)}")
 
 print(f"Het energie verlies is {energy_loss} ± {error_energy_loss}")
