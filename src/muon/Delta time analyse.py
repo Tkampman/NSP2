@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
-from muon.Lifetime_analyse import tau
+from muon.Lifetime_analyse import tau, tau_error
+
 # Load your data from the CSV file
 data_pos = pd.read_csv("Delta time groep A 30-11.csv")
 data_neg = pd.read_csv("Delta time tot 27-11-2023 Groep B gestolen.csv")
@@ -76,8 +77,8 @@ print(f"velocity is {speed}")
 print(f'Vergeleken met de snelheid van licht is dit: {round(velocity_light,3)} ± {round(error/c, 3)} c')
 
 # Time of life in muon perspective
-time = 2.0257199464354523
-error_time = 0.034040854478832844
+time = tau
+error_time = tau_error
 
 # Energy at creation
 gamma = 1/(np.sqrt(1 - ((speed)**2)/(c**2)))
@@ -94,7 +95,7 @@ energy_J = energy_loss + muon_mass * c**2 * gamma
 energy_GeV = energy_J * 6.242 * 10**(9)
 
 energy_GeV_error = np.sqrt((0.2 * distance_traveled * np.sqrt((error/speed)**2 + 
-(error_time/time)**2))**2 + (6.242 * 10**(9) * muon_mass*c**2 * (speed * error/(c**2 * (1 - (speed**2)/(c**2))**(3/2))))**2)
+(error_time/time)**2))**2 + (error_gamma)**2)
 
 print(f"De muon is ontstaan op een hoogt van : {distance_traveled} ± {0.2 * distance_traveled * np.sqrt((error/speed)**2 + (error_time/time))} m in de ref frame van de muon")
 print(f"De muon is ontstaan op een hoogt van : {distance_traveled * gamma} m in de ref frame van ons")
@@ -108,7 +109,7 @@ delta_time_error = np.sqrt(((speed**2 * time**2 * error**2)/(c**4 - c**2 * speed
 print(f'De eigentijd van de muon is: {delta_time} ± {delta_time_error} us')
 print(f"sigma/sqrt(N) {perr1[2]/np.sqrt(len(x1))}")
 print(f"Mu recentered {distance_to_peak1}")
-print(f"De energie gemeten {muon_mass * c**2 * gamma * 6.242 * 10**(9)} ± {(6.242 * 10**(9) * muon_mass*c**2 * (speed * error/(c**2 * (1 - (speed**2)/(c**2))**(3/2))))}")
+print(f"De energie gemeten {muon_mass * c**2 * gamma * 6.242 * 10**(9)} ± {(error_gamma)}")
 
 print(f"Het energie verlies is {energy_loss} ± {error_energy_loss}")
 plt.legend()
