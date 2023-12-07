@@ -87,9 +87,10 @@ print(f'Vergeleken met de snelheid van licht is dit: {round(velocity_light,3)} �
 # Parameters of the energy 
 energy_loss = distance_traveled * gamma * 0.2 * 0.001293 #GeV
 error_energy_loss = energy_loss * np.sqrt((error_distance_traveled / distance_traveled)**2 + (error_gamma / gamma)**2) #GeV
-energy_GeV = energy_loss + muon_mass * c**2 * gamma * 6.242 * 10**(9) #GeV
-energy_GeV_error = energy_GeV * np.sqrt((0.2 * distance_traveled * np.sqrt((error_velocity/speed)**2 + (error_time/time)**2))**2 + (error_gamma / gamma)**2)
-
+energy_end = muon_mass * c**2 * gamma * 6.242 * 10**(9) #GeV
+error_energy_end = muon_mass * c**2 * error_gamma * 6.242 * 10**(9) #GeV
+energy_GeV = energy_loss + energy_end #GeV
+energy_GeV_error = np.sqrt((error_energy_loss)**2 + (error_energy_end)**2) #GeV
 print(f"De muon is ontstaan op een hoogt van : {distance_traveled} ± {error_distance_traveled} m in de ref frame van de muon")
 print(f"De muon is ontstaan op een hoogt van : {distance_traveled * gamma} m in de ref frame van ons")
 print(f"De gemiddelde energie is : {round(energy_GeV, 3)} ± {round(energy_GeV_error, 3)} GeV")
