@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
-from muon.Lifetime_analyse import tau, tau_error
+from Lifetime_analyse import tau, tau_error
 
 # Load your data from the CSV file
 data_pos = pd.read_csv("Delta time groep A 30-11.csv")
@@ -84,14 +84,11 @@ error_distance_traveled = distance_traveled * np.sqrt((error_velocity/speed)**2 
 print(f"velocity is {speed}")
 print(f'Vergeleken met de snelheid van licht is dit: {round(velocity_light,3)} ± {round(error_velocity/c, 3)} c')
 
-# energy_loss = distance_traveled * gamma * loss factor (MeV/g/cm^2) in MeV
-energy_loss = distance_traveled * gamma * 100 * 2 * 0.001293
-error_energy_loss = energy_loss * np.sqrt((error_distance_traveled / distance_traveled)**2 + (error_gamma / gamma)**2) 
-energy_J = energy_loss + muon_mass * c**2 * gamma
-energy_GeV = energy_J * 6.242 * 10**(9)
-
-energy_GeV_error = np.sqrt((0.2 * distance_traveled * np.sqrt((error_velocity/speed)**2 + 
-(error_time/time)**2))**2 + (error_gamma)**2)
+# Parameters of the energy 
+energy_loss = distance_traveled * gamma * 0.2 * 0.001293 #GeV
+error_energy_loss = energy_loss * np.sqrt((error_distance_traveled / distance_traveled)**2 + (error_gamma / gamma)**2) #GeV
+energy_GeV = energy_loss + muon_mass * c**2 * gamma * 6.242 * 10**(9) #GeV
+energy_GeV_error = energy_GeV * np.sqrt((0.2 * distance_traveled * np.sqrt((error_velocity/speed)**2 + (error_time/time)**2))**2 + (error_gamma / gamma)**2)
 
 print(f"De muon is ontstaan op een hoogt van : {distance_traveled} ± {error_distance_traveled} m in de ref frame van de muon")
 print(f"De muon is ontstaan op een hoogt van : {distance_traveled * gamma} m in de ref frame van ons")
