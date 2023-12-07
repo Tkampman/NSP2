@@ -38,8 +38,8 @@ def fit_data(data, func, initial_params):
     return params, perr, fitted_curve, x, y
 
 # Fit the data for both datasets
-params1, perr1, fitted_curve1, x1, y1 = fit_data(data_pos, func, [10000, 10])
-params2, perr2, fitted_curve2, x2, y2 = fit_data(data_neg, func, [10000, -10])
+params1, perr1, fitted_curve1, x1, y1 = fit_data(data_pos, func, [1000, 7.5])
+params2, perr2, fitted_curve2, x2, y2 = fit_data(data_neg, func, [1000, -10.5])
 
 print(params1)
 print(params2)
