@@ -83,7 +83,8 @@ error_gamma = (6.242 * 10**(9) * muon_mass*c**2 * (speed * error_velocity/(c**2 
 # Parameters of distance traveled
 distance_traveled = time * (10**(-6)) * speed
 error_distance_traveled = distance_traveled * np.sqrt((error_velocity/speed)**2 + (error_time/time)**2)
-
+distance_traveled_lab = distance_traveled * gamma
+error_distance_traveled_lab = distance_traveled * gamma * np.sqrt((error_gamma / gamma) ** 2 + (error_distance_traveled / distance_traveled) ** 2)
 print(f"velocity is {speed}")
 print(f'Vergeleken met de snelheid van licht is dit: {round(velocity_light,3)} ± {round(error_velocity/c, 3)} c')
 
@@ -97,18 +98,19 @@ energy_GeV_error = np.sqrt((error_energy_loss)**2 + (error_energy_end)**2) #GeV
 
 # Relativistic effects
 delta_time = time * gamma
-delta_time_error = np.sqrt(((speed**2 * time**2 * error_velocity**2)/(c**4 - c**2 * speed**2)) + ((1 - (speed/c)**2) * error_time**2))
+# delta_time_error = np.sqrt(((speed**2 * time**2 * error_velocity**2)/(c**4 - c**2 * speed**2)) + ((1 - (speed/c)**2) * error_time**2))
 delta_time_error_2 = delta_time * np.sqrt(((error_gamma)/(gamma))** 2 + ((tau_error)/(time))**2)
 
-print(f"De muon is ontstaan op een hoogt van : {distance_traveled} ± {error_distance_traveled} m in de ref frame van de muon")
-print(f"De muon is ontstaan op een hoogt van : {distance_traveled * gamma} m in de ref frame van ons")
-print(f"De gemiddelde energie is : {round(energy_GeV, 3)} ± {round(energy_GeV_error, 3)} GeV")
+print(f"velocity is {speed}")
+print(f'Vergeleken met de snelheid van licht is dit: {round(velocity_light,3)} ± {round(error_velocity/c, 3)} c')
+print(f"De muon is ontstaan op een hoogte van : {distance_traveled} ± {error_distance_traveled} m in de ref frame van de muon")
+print(f"De muon is ontstaan op een hoogte van : {distance_traveled_lab} ± {error_distance_traveled_lab} m in de ref frame van ons")
 print(f"Gamma factor: {gamma}")
-print(f'De levensduur van de muon in ons referentiestelsel is: {delta_time} ± {delta_time_error}, {delta_time_error_2} us')
+print(f'De levensduur van de muon in ons referentiestelsel is: {delta_time} ± {delta_time_error_2} us')
 print(f"Mu recentered {distance_to_peak}")
-print(f"De energie gemeten {muon_mass * c**2 * gamma * 6.242 * 10**(9)} ± {(error_gamma)}")
+print(f"De energie gemeten {energy_end} ± {error_energy_end}")
 print(f"Het energie verlies is {energy_loss} ± {error_energy_loss}")
-
+print(f"De gemiddelde begin energie is : {round(energy_GeV, 3)} ± {round(energy_GeV_error, 3)} GeV")
 
 # plt.savefig('Delta time two peaks.png', dpi=600)
 plt.show()

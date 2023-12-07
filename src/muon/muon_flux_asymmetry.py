@@ -17,6 +17,7 @@ east_rate = counts_east / time_east
 error_east_rate = error_counts_east / time_west
 
 error_rate = np.sqrt((error_east_rate) ** 2 + (error_west_rate)** 2)
+
 # Asymmetry formula
 A = (west_rate - east_rate) / (west_rate + east_rate)
 error_A = A * np.sqrt(((error_rate)/(west_rate - east_rate))**2 + ((error_rate)/(west_rate + east_rate))**2)
