@@ -43,7 +43,7 @@ plt.xlim([-25, 25])
 plt.xlabel('Tijd (ns)')
 plt.ylabel('Aantal')
 plt.title('Delta tijd meting')
-
+plt.legend()
 # Print the parameters of the fitted peaks and their errors
 A1, mu1, sigma1 = params1
 A2, mu2, sigma2 = params2
@@ -91,21 +91,22 @@ energy_end = muon_mass * c**2 * gamma * 6.242 * 10**(9) #GeV
 error_energy_end = muon_mass * c**2 * error_gamma * 6.242 * 10**(9) #GeV
 energy_GeV = energy_loss + energy_end #GeV
 energy_GeV_error = np.sqrt((error_energy_loss)**2 + (error_energy_end)**2) #GeV
+
+# Relativistic effects
+delta_time = time * gamma
+delta_time_error = np.sqrt(((speed**2 * time**2 * error_velocity**2)/(c**4 - c**2 * speed**2)) + ((1 - (speed/c)**2) * error_time**2))
+delta_time_error_2 = delta_time * np.sqrt(((error_gamma)/(gamma))** 2 + ((tau_error)/(time))**2)
+
 print(f"De muon is ontstaan op een hoogt van : {distance_traveled} ± {error_distance_traveled} m in de ref frame van de muon")
 print(f"De muon is ontstaan op een hoogt van : {distance_traveled * gamma} m in de ref frame van ons")
 print(f"De gemiddelde energie is : {round(energy_GeV, 3)} ± {round(energy_GeV_error, 3)} GeV")
 print(f"Gamma factor: {gamma}")
-
-# Relativistic effects
-delta_time = time / np.sqrt(1 - (speed/c)**2)
-delta_time_error = np.sqrt(((speed**2 * time**2 * error_velocity**2)/(c**4 - c**2 * speed**2)) + ((1 - (speed/c)**2) * error_time**2))
-
-print(f'De eigentijd van de muon is: {delta_time} ± {delta_time_error} us')
-print(f"sigma/sqrt(N) {perr1[2]/np.sqrt(len(x1))}")
+print(f'De levensduur van de muon in ons referentiestelsel is: {delta_time} ± {delta_time_error}, {delta_time_error_2} us')
 print(f"Mu recentered {distance_to_peak}")
 print(f"De energie gemeten {muon_mass * c**2 * gamma * 6.242 * 10**(9)} ± {(error_gamma)}")
 print(f"Het energie verlies is {energy_loss} ± {error_energy_loss}")
-plt.legend()
+
+
 # plt.savefig('Delta time two peaks.png', dpi=600)
 plt.show()
 
