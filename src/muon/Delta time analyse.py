@@ -2,16 +2,18 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
-from Lifetime_analyse import tau, tau_error
+from muon.Lifetime_analyse import tau, tau_error
 
 # Load your data from the CSV file
 data_pos = pd.read_csv("Delta time groep A 30-11.csv")
 data_neg = pd.read_csv("Delta time tot 27-11-2023 Groep B gestolen.csv")
 
+# Determine fit function
 def func(x, A, mu, sigma):
     N = A * np.exp(-(x - mu)**2 / (2 * sigma**2))
     return N
 
+# Function fitten
 def fit_data(data, func, initial_params):
     x = data['Time [ns] - histogram']
     y = data['Counts - histogram']
@@ -26,6 +28,7 @@ def fit_data(data, func, initial_params):
 
     return params, perr, fitted_curve, x, y
 
+# Determine midpoint
 def distance_peak_func(peak1,peak2):
     midpoint = (peak1 + peak2) / 2
     distance = abs(midpoint - peak1)
