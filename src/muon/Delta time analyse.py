@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
+import pandas as pd
 from scipy.optimize import curve_fit
+
 from muon.Lifetime_analyse import tau, tau_error
 
 # Load your data from the CSV file
@@ -96,7 +97,6 @@ energy_GeV_error = np.sqrt((error_energy_loss)**2 + (error_energy_end)**2) #GeV
 
 # Relativistic effects
 delta_time = time * gamma
-# delta_time_error = np.sqrt(((speed**2 * time**2 * error_velocity**2)/(c**4 - c**2 * speed**2)) + ((1 - (speed/c)**2) * error_time**2))
 delta_time_error_2 = delta_time * np.sqrt(((error_gamma)/(gamma))** 2 + ((tau_error)/(time))**2)
 
 print(f"velocity is {speed}")
