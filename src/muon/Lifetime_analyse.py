@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from scipy.optimize import curve_fit
-from lmfit import curve_model
 
 # Load your data from the CSV file
 data = pd.read_csv("Lifetime groep A 30-11.csv")
