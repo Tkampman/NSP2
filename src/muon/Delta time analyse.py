@@ -90,9 +90,16 @@ error_distance_traveled_lab = distance_traveled * gamma * np.sqrt((error_gamma /
 # Parameters of the energy
 
 if distance_traveled <= 1000:
+    energy_loss = distance_traveled * gamma * 0.2 * 0.001225 #GeV
 
-    
+if distance_traveled <= 2000 and distance_traveled > 1000:
+    energy_loss = (distance_traveled - 1000) * gamma * 0.2 * 0.001112 #GeV
+    energy_loss += 1000 * gamma * 0.2 * 0.001225 #GeV
 
+if distance_traveled <= 3000 and distance_traveled > 2000:
+    energy_loss = (distance_traveled - 2000) * gamma * 200 * 0.001007 #GeV
+    energy_loss += 1000 * gamma * 0.2 * 0.001112 #GeV
+    energy_loss += 1000 * gamma * 0.2 * 0.001225 #GeV
 
 error_energy_loss = energy_loss * np.sqrt((error_distance_traveled / distance_traveled)**2 + (error_gamma / gamma)**2) #GeV
 energy_end = muon_mass * c**2 * gamma * 6.242 * 10**(9) #GeV
