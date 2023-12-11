@@ -89,11 +89,8 @@ error_distance_traveled_lab = distance_traveled * gamma * np.sqrt((error_gamma /
 
 # Parameters of the energy
 
-for x in np.arange(round(distance_traveled)):
-    energy_loss = 0
-    factor = 200
-    if x<= 1000:
-        energy_loss = energy_loss + x * factor * 0.001225
+if distance_traveled <= 1000:
+
     
 
 
