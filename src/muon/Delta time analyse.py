@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
+import pandas as pd
 from scipy.optimize import curve_fit
+
 from muon.Lifetime_analyse import tau, tau_error
 
 # Load your data from the CSV file
@@ -87,11 +88,15 @@ distance_traveled_lab = distance_traveled * gamma
 error_distance_traveled_lab = distance_traveled * gamma * np.sqrt((error_gamma / gamma) ** 2 + (error_distance_traveled / distance_traveled) ** 2)
 
 # Parameters of the energy
-if distance_traveled > 3000:
-    energy_loss_1000 = distance_traveled * gamma * 0.2 * 1.225 * 0.001 #GeV
-    energy_loss_2000 = distance_traveled * gamma * 0.2 * 1.112 * 0.001 #GeV
-    energy_loss_3000 = distance_traveled * gamma * 0.2 * 1.007 * 0.001 #GeV
-energy_loss = energy_loss_1000 + energy_loss_2000 + energy_loss_3000
+
+for x in np.arange(round(distance_traveled)):
+    energy_loss = 0
+    factor = 200
+    if x<= 1000:
+        energy_loss = energy_loss + x * factor * 0.001225
+    
+
+
 error_energy_loss = energy_loss * np.sqrt((error_distance_traveled / distance_traveled)**2 + (error_gamma / gamma)**2) #GeV
 energy_end = muon_mass * c**2 * gamma * 6.242 * 10**(9) #GeV
 error_energy_end = muon_mass * c**2 * error_gamma * 6.242 * 10**(9) #GeV
