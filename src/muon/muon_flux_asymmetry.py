@@ -5,8 +5,8 @@ counts_west = 49876
 time_west = 175421 # in seconds
 error_counts_west = np.sqrt(counts_west)
 
-counts_east = 2300
-time_east = 12666 # in seconds
+counts_east = 1414
+time_east = 8024 # in seconds
 error_counts_east = np.sqrt(counts_east)
 
 # Calculate the rates
