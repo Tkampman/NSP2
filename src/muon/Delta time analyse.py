@@ -90,7 +90,6 @@ distance_traveled_lab = distance_traveled * gamma
 error_distance_traveled_lab = distance_traveled * gamma * np.sqrt((error_gamma / gamma) ** 2 + (error_distance_traveled / distance_traveled) ** 2)
 
 # Parameters of the energy
-
 if distance_traveled <= 1000:
     energy_loss = distance_traveled * gamma * 0.2 * 0.001225 #GeV
 
