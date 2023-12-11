@@ -22,8 +22,6 @@ initial_params = [1, 2.2, 0]  # Adjust as needed
 weights = np.full(len(x), 0.5)
 
 # Perform the curve fit
-data_fit = curve_fit(func, x, y, p0=initial_params, sigma=1/weights)
-data_fit
 params, covariance = curve_fit(func, x, y, p0=initial_params, sigma=1/weights)
 # Extract the standard deviations (sqrt of diagonal elements of the covariance matrix)
 perr = np.sqrt(np.diag(covariance))
