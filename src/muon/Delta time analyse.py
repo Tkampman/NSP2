@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
-from scipy.stats import chi2
 
 # from muon.Lifetime_analyse import tau, tau_error
 from Lifetime_analyse import tau, tau_error
