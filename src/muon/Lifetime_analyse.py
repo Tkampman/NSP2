@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
+import pandas as pd
 from scipy.optimize import curve_fit
 
 # Load your data from the CSV file
@@ -33,7 +33,7 @@ fitted_curve = func(x, *params)
 # plt.errorbar(x, y, fmt='o', label="Data with Error", color='b')
 plt.plot(x,y, '-', label="Leeftijd muon", color="blue")
 plt.plot(x, fitted_curve, label="Fitted Curve", color='crimson')
-plt.xlabel('Tijd (us)')
+plt.xlabel('Tijd ($\mu$s)')
 plt.ylabel('Aantal')
 plt.title("Leeftijd distributie muon")
 plt.xlim([0,16])
