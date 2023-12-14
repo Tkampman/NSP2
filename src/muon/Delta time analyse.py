@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from scipy.interpolate import interp1d
 from scipy.optimize import curve_fit
 
 # from muon.Lifetime_analyse import tau, tau_error
@@ -17,18 +18,26 @@ def func(x, A, mu, sigma):
 
 # Function fitten
 def fit_data(data, func, initial_params):
-    x = data['Time [ns] - histogram']
-    y = data['Counts - histogram']
+    # Original x and y values from the data
+    x_original = data['Time [ns] - histogram']
+    y_original = data['Counts - histogram']
 
-    weights = np.full(len(x), 0.5)
+    # Create a finer grid of x-values
+    x_fine = np.linspace(x_original.min(), x_original.max(), 1000)
 
-    params, covariance = curve_fit(func, x, y, p0=initial_params, sigma=1/weights)
+    # Interpolate y-values for the new x-values
+    y_interpolated = np.interp(x_fine, x_original, y_original)
+
+    # Weights for curve_fit
+    weights = np.full(len(x_fine), 0.5)
+
+    # Fit the function using the interpolated data
+    params, covariance = curve_fit(func, x_fine, y_interpolated, p0=initial_params, sigma=1/weights)
 
     perr = np.sqrt(np.diag(covariance))
+    fitted_curve = func(x_fine, *params)
 
-    fitted_curve = func(x, *params)
-
-    return params, perr, fitted_curve, x, y
+    return params, perr, fitted_curve, x_fine, y_interpolated
 
 # Determine midpoint
 def distance_peak_func(peak1,peak2):
@@ -40,10 +49,10 @@ params1, perr1, fitted_curve1, x1, y1 = fit_data(data_pos, func, [600, 7, 1])
 params2, perr2, fitted_curve2, x2, y2 = fit_data(data_neg, func, [600, -10, 1])
 
 # Plotting
-plt.errorbar(x1, y1, fmt='o', color='seagreen', label='positieve tijd')
-plt.plot(x1, fitted_curve1, label="Fit positief", color='limegreen')
-plt.errorbar(x2, y2, fmt='o', color='mediumblue', label='negatieve tijd')
-plt.plot(x2, fitted_curve2, label="Fit negatief", color='blue')
+plt.errorbar(x1, y1, fmt='o', color='seagreen', label='positieve tijd', markersize=2)
+plt.plot(x1, fitted_curve1, label="Fit positief", color='lime')
+plt.errorbar(x2, y2, fmt='o', color='mediumblue', label='negatieve tijd', markersize=2)
+plt.plot(x2, fitted_curve2, label="Fit negatief", color='cyan')
 plt.xlim([-25, 25])
 plt.xlabel('Tijd (ns)')
 plt.ylabel('Aantal')
