@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-# from Lifetime_analyse import tau, tau_error
+from Lifetime_analyse import tau, tau_error
 from scipy.optimize import curve_fit
 
-from muon.Lifetime_analyse import tau, tau_error
+# from muon.Lifetime_analyse import tau, tau_error
 
 # Load your data from the CSV file
 data_pos = pd.read_csv("Delta time groep A 30-11.csv")
